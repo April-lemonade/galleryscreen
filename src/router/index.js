@@ -12,9 +12,13 @@ const routes = [
         component: () => import('../main.vue')
     },
     {
-        path:'/popularroute',
-        name:'popularRoute',
-        component:()=>import('../PopularRoute.vue')
+        path: '/popularroute',
+        name: 'popularRoute',
+        component: () => import('../PopularRoute.vue')
+    }, {
+        path: '/testView',
+        name: 'testView',
+        component: () => import('../testView.vue')
     }
 ]
 

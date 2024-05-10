@@ -15,14 +15,14 @@
           </div>
         </div>
       </div>
-<!--      <div class="subtitle">-->
-<!--        Most Participated-->
-<!--      </div>-->
-<!--      <div style="display: flex;flex-direction: column;align-items: flex-start">-->
-<!--        <div v-for="(item,index) in hotArtworks" :key="index">-->
-<!--          {{ item.id }}&nbsp;&nbsp;{{ item.name }}-->
-<!--        </div>-->
-<!--      </div>-->
+      <!--      <div class="subtitle">-->
+      <!--        Most Participated-->
+      <!--      </div>-->
+      <!--      <div style="display: flex;flex-direction: column;align-items: flex-start">-->
+      <!--        <div v-for="(item,index) in hotArtworks" :key="index">-->
+      <!--          {{ item.id }}&nbsp;&nbsp;{{ item.name }}-->
+      <!--        </div>-->
+      <!--      </div>-->
     </div>
     <div class="right">
       <div style="position: relative;z-index: 2;width: 100%">
@@ -63,10 +63,13 @@
             </div>
           </div>
           <div class="reminder">
-            <div class="subtitle">Most Participated</div>
-            <div v-for="(item,index) in hotArtworks" :key="index" style="display: flex;flex-direction: column;align-items: flex-start;width: 100%">
-              {{ item.id }}&nbsp;&nbsp;{{ item.name }}
+            <div class="subtitle">Most Where are the popular exhibits located ?
             </div>
+            <img style="width: 30%" src="./assets/locbg.jpg" alt=""/>
+<!--            <div v-for="(item,index) in hotArtworks" :key="index"-->
+<!--                 style="display: flex;flex-direction: column;align-items: flex-start;width: 100%">-->
+<!--              {{ item.id }}&nbsp;&nbsp;{{ item.name }}-->
+<!--            </div>-->
           </div>
         </div>
       </div>
@@ -92,8 +95,8 @@ export default {
         duration: 10,
         content: ['La partida de David', 'Cabeza femenina, de perfil hacia la izquierda', 'San Vicente Ferrer', 'Asta su Abuelo', 'Seis manos', 'Julia Domna', 'Figura femenina y amorcillo sobre nubes', 'Tampoco', 'Florero', 'Santa Catalina']
       }, {
-        color1: '#828046',
-        color2: '#1C1C0F',
+        color1: '#7297AC',
+        color2: '#313D43',
         proportion: 0.2,
         name: 'path2',
         duration: 30,

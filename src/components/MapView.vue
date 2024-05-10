@@ -1,16 +1,16 @@
 <template>
   <div class="image-map-container">
+<!--    <button @click="saveCanvasAsImage">保存画布为图片</button>-->
+
     <img src="../assets/map.jpg" alt="Map" @load="onImageLoad"
          style="display: flex; width: 1500px; height: auto;position: absolute;z-index: 1"/>
     <div v-for="(item,index) in hotArtworks" :key="index"
          style="z-index:3;position: absolute;width: 150px;background: transparent;"
          :style="{left: `${item.position.x * 1.5}px`, top: `${760 - item.position.y * 1.5}px`}">
-      {{ item.id }}
       <!--      <div style="position: relative;display: flex;">-->
       <!--        <div style="width: 15px">test</div>-->
       <!--      </div>-->
-      <!--      <img style="background: transparent;width: 100%" src="../assets/imgbg.jpg" alt=""/>-->
-      <!--      <img style="background: transparent;width: 80%" src="../assets/imgdir.jpg" alt=""/>-->
+      <img style="background: transparent;width: 80%" :src="item.img" alt=""/>
     </div>
     <canvas ref="canvas" :style="{ position: 'relative', top: '0px', left: '0px',zIndex:'2' }"></canvas>
 
@@ -545,20 +545,107 @@ export default {
         {x: 494, y: 383},
         {x: 498, y: 388}],
       hotArtworks: [
-        {id: '14', position: {x: 390, y: 210}, img: require('../assets/HotArtwork/test.jpg')},
-        {id: '10', position: {x: 493, y: 255}, img: require('../assets/HotArtwork/test.jpg')},
-        {id: '15', position: {x: 417, y: 180}, img: require('../assets/HotArtwork/test.jpg')},
-        {id: '12', position: {x: 470, y: 230}, img: require('../assets/HotArtwork/test.jpg')},
-        {id: '11', position: {x: 480, y: 215}, img: require('../assets/HotArtwork/test.jpg')}
+        {id: '14', position: {x: 692, y: 260}, img: require('../assets/Group 40.png')},
+        {id: '10', position: {x: 760, y: 350}, img: require('../assets/Group 42.png')},
+        {id: '15', position: {x: 465, y: 340}, img: require('../assets/Group 43.png')},
+        {id: '12', position: {x: 295, y: 250}, img: require('../assets/Group 44.png')},
+        {id: '11', position: {x: 190, y: 310}, img: require('../assets/Group 45.png')}
       ]
     };
   },
 
   methods: {
+    animatePath() {
+      const canvas = this.$refs.canvas;
+      const ctx = canvas.getContext('2d');
+      canvas.width = this.width;
+      canvas.height = this.height;
+
+      // 移动坐标原点到左下角并设置横轴和纵轴的范围
+      ctx.translate(0, canvas.height);
+      ctx.scale(canvas.width / 1000, -canvas.height / 500);
+
+      let index = 0; // 当前绘制的点索引
+      let points = this.pathPoints; // 这里可以替换成任何路径点数组
+
+      function draw() {
+        if (index < points.length) {
+          if (index === 0) {
+            ctx.moveTo(points[index].x, points[index].y);
+          } else {
+            ctx.lineTo(points[index].x, points[index].y);
+          }
+          ctx.stroke();
+
+          index++;
+          requestAnimationFrame(draw); // 请求下一帧继续绘制
+        }
+      }
+
+      ctx.beginPath();
+      ctx.strokeStyle = '#B98333';
+      ctx.lineWidth = 2;
+      requestAnimationFrame(draw); // 开始绘制动画
+      // ctx.beginPath();
+      // points = this.pathPoints1;
+      // ctx.strokeStyle = '#7297AC';
+      // ctx.lineWidth = 2;
+      // requestAnimationFrame(draw); // 开始绘制动画
+    },
+    animatePath1() {
+      const canvas = this.$refs.canvas;
+      const ctx = canvas.getContext('2d');
+      canvas.width = this.width;
+      canvas.height = this.height;
+
+      // 移动坐标原点到左下角并设置横轴和纵轴的范围
+      ctx.translate(0, canvas.height);
+      ctx.scale(canvas.width / 1000, -canvas.height / 500);
+
+      let index = 0; // 当前绘制的点索引
+      let points = this.pathPoints1; // 这里可以替换成任何路径点数组
+
+      function draw() {
+        if (index < points.length) {
+          if (index === 0) {
+            ctx.moveTo(points[index].x, points[index].y);
+          } else {
+            ctx.lineTo(points[index].x, points[index].y);
+          }
+          ctx.stroke();
+
+          index++;
+          requestAnimationFrame(draw); // 请求下一帧继续绘制
+        }
+      }
+
+      ctx.beginPath();
+      ctx.strokeStyle = '#B98333';
+      ctx.lineWidth = 2;
+      requestAnimationFrame(draw); // 开始绘制动画
+      // ctx.beginPath();
+      // points = this.pathPoints1;
+      // ctx.strokeStyle = '#7297AC';
+      // ctx.lineWidth = 2;
+      // requestAnimationFrame(draw); // 开始绘制动画
+    },
+
+    saveCanvasAsImage() {
+      const canvas = this.$refs.canvas;
+      if (canvas) {
+        const imageDataURL = canvas.toDataURL("image/png"); // 创建图片DataURL
+        const link = document.createElement('a');
+        link.download = 'canvas-image.png'; // 设置下载的文件名
+        link.href = imageDataURL;
+        link.click(); // 触发下载
+      }
+    },
     onImageLoad(event) {
       this.width = event.target.width;
       this.height = event.target.height;
       this.drawPath();
+      // this.animatePath()
+      // this.animatePath1()
     },
     drawPath() {
       const canvas = this.$refs.canvas;
@@ -593,7 +680,7 @@ export default {
           ctx.lineTo(point.x, point.y);
         }
       });
-      ctx.strokeStyle = '#828046';
+      ctx.strokeStyle = '#7297AC';
       ctx.lineWidth = 2;
       ctx.stroke();
 

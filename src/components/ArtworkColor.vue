@@ -60,8 +60,8 @@ export default {
           this.p.x += this.direction * vectorField(this.p.x, this.p.y, this.scale).x * this.step;
           this.p.y += this.direction * vectorField(this.p.x, this.p.y, this.scale).y * this.step;
 
-          if (this.p.x >= p.width / 2 + 400 || this.p.x <= p.width / 2 - 800 ||
-              this.p.y <= p.height / 2 - 400 || this.p.y >= p.height / 2 + 600) {
+          if (this.p.x >= p.width / 2 + 800 || this.p.x <= p.width / 2 - 800 ||
+              this.p.y <= p.height / 2 - 600 || this.p.y >= p.height / 2 + 600) {
             this.step = 0;
           }
 

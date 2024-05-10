@@ -50,7 +50,7 @@
           <div class="info-mid-detail-title" style="margin-top: 20%;width: 100%">
             <p>Topic Colors</p>
           </div>
-          <img style="bottom: 5%" src="./assets/HotArtwork/TopicColors.jpg" alt=""/>
+          <img style="bottom: 5%;width: 100%" src="./assets/HotArtwork/TopicColors.jpg" alt=""/>
         </div>
         <div class="info-mid-detail" style="width: 70%;margin-left: 5%;margin-right: 5%">
           <div style="height: 70%;display: flex;flex-direction: column;justify-content: flex-end;margin-bottom: 5%">
