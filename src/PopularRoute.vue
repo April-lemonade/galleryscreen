@@ -1,6 +1,7 @@
 <template>
+  <!--  <map-test></map-test>-->
   <div class="container">
-    <div class="left">
+    <div class="animate__animated animate__slideInUp left">
       <div>
         <div class="subtitle">
           Path through artwork
@@ -26,14 +27,15 @@
     </div>
     <div class="right">
       <div style="position: relative;z-index: 2;width: 100%">
-        <map-view></map-view>
+        <!--        <map-view></map-view>-->
+        <leaf-map></leaf-map>
       </div>
-      <div
+      <div class="animate__animated animate__slideInRight"
           style="position: absolute;z-index: 3;bottom: 9%;width: 60vw;display: flex;flex-direction: column;align-items: center;background: transparent">
         <p style="width: 80%;text-align: center; font-size: 60px;font-weight: bold;margin-bottom: 5%;;backdrop-filter: blur(5px);border-radius: 20px;box-shadow: 0 4px 4px rgba(255,255,255,0.15);background: transparent">
           Popular route recommendation
         </p>
-        <div class="statistics">
+        <div class="animate__animated animate__slideInRight statistics">
           <div class="reminder">
             <div class="subtitle">What is the name of the route?</div>
             <div v-for="(item,index) in paths" :key="index" class="reminder_content">
@@ -63,52 +65,64 @@
             </div>
           </div>
           <div class="reminder">
-            <div class="subtitle">Most Where are the popular exhibits located ?
+            <div class="subtitle">Where are the most popular exhibits located?
             </div>
             <img style="width: 30%" src="./assets/locbg.jpg" alt=""/>
-<!--            <div v-for="(item,index) in hotArtworks" :key="index"-->
-<!--                 style="display: flex;flex-direction: column;align-items: flex-start;width: 100%">-->
-<!--              {{ item.id }}&nbsp;&nbsp;{{ item.name }}-->
-<!--            </div>-->
+            <!--            <div v-for="(item,index) in hotArtworks" :key="index"-->
+            <!--                 style="display: flex;flex-direction: column;align-items: flex-start;width: 100%">-->
+            <!--              {{ item.id }}&nbsp;&nbsp;{{ item.name }}-->
+            <!--            </div>-->
           </div>
         </div>
       </div>
     </div>
   </div>
-</template>
 
+</template>
 <script>
-import MapView from "@/components/MapView.vue";
+// import colorSpread from "@/components/ColorSpread.vue";
+// import anime from "animejs";
+// anime({
+//   targets: 'div',
+//   translateX: 250,
+//   rotate: '1turn',
+//   backgroundColor: '#FFF',
+//   duration: 800
+// });
+import mapTest from "@/components/MapTest.vue";
+import leafMap from "@/components/LeafMap.vue";
+import 'animate.css';
 
 export default {
-  name: 'PopularRoute',
-  components: {
-    MapView
-  },
+  name: 'testView',
   data() {
     return {
-      paths: [{
-        color1: '#B98333',
-        color2: '#533B17',
-        proportion: 0.4,
-        name: 'path1',
-        duration: 10,
-        content: ['La partida de David', 'Cabeza femenina, de perfil hacia la izquierda', 'San Vicente Ferrer', 'Asta su Abuelo', 'Seis manos', 'Julia Domna', 'Figura femenina y amorcillo sobre nubes', 'Tampoco', 'Florero', 'Santa Catalina']
-      }, {
-        color1: '#7297AC',
-        color2: '#313D43',
-        proportion: 0.2,
-        name: 'path2',
-        duration: 30,
-        content: ['Santa Catalina', 'Los duques de Osuna y sus hijos', 'Florero', 'Tampoco', 'Isabel II, niña', 'Ignacio, hijo del artista'],
-      }, {
-        color1: '#4F7C48',
-        color2: '#1F301C',
-        proportion: 0.3,
-        name: 'path3',
-        duration: 20,
-        content: ['Botella del estuche de aseo de viaje de Fernando VII', 'Chasco, mala fiesta es esta', 'La Torre de las Damas en la Alhambra de Granada', 'Santa Ana, San Joaquín y la Virgen', 'Trece manos', 'Santa Catalina', 'Los duques de Osuna y sus hijos', 'Isabel II, niña', 'Figura femenina y amorcillo sobre nubes']
-      }],
+      paths: [
+        {
+          color1: '#B98333',
+          color2: '#533B17',
+          proportion: 0.4,
+          name: 'path1',
+          duration: 10,
+          content: ['La partida de David', 'Cabeza femenina, de perfil hacia la izquierda', 'San Vicente Ferrer', 'Asta su Abuelo', 'Seis manos', 'Julia Domna', 'Figura femenina y amorcillo sobre nubes', 'Tampoco', 'Florero', 'Santa Catalina']
+        },
+        {
+          color1: '#7297AC',
+          color2: '#313D43',
+          proportion: 0.2,
+          name: 'path2',
+          duration: 30,
+          content: ['Santa Catalina', 'Los duques de Osuna y sus hijos', 'Florero', 'Tampoco', 'Isabel II, niña', 'Ignacio, hijo del artista'],
+        },
+        {
+          color1: '#4F7C48',
+          color2: '#1F301C',
+          proportion: 0.3,
+          name: 'path3',
+          duration: 20,
+          content: ['Botella del estuche de aseo de viaje de Fernando VII', 'Chasco, mala fiesta es esta', 'La Torre de las Damas en la Alhambra de Granada', 'Santa Ana, San Joaquín y la Virgen', 'Trece manos', 'Santa Catalina', 'Los duques de Osuna y sus hijos', 'Isabel II, niña', 'Figura femenina y amorcillo sobre nubes']
+        }
+      ],
       hotArtworks: [
         {id: '14', name: 'Santa Catalina', position: {x: 390, y: 210}, img: require('./assets/HotArtwork/test.jpg')},
         {
@@ -125,13 +139,32 @@ export default {
         },
         {id: '12', name: 'Tampoco', position: {x: 470, y: 230}, img: require('./assets/HotArtwork/test.jpg')},
         {id: '11', name: 'Isabel II, niña', position: {x: 480, y: 215}, img: require('./assets/HotArtwork/test.jpg')}
-      ]
+      ],
     }
-  }
+  },
+  components: {
+    // colorSpread
+    mapTest,
+    leafMap
+  },
 }
 </script>
 
+
 <style>
+/* Ensure the map container has a defined height and width */
+#map {
+  height: 100%;
+}
+
+svg {
+  background: transparent;
+}
+
+.leaflet-marker-icon {
+  background: transparent;
+}
+
 * {
   margin: 0;
   padding: 0;

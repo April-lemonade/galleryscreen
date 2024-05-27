@@ -34,10 +34,14 @@ module.exports = {
             '/models': {  // This path is an arbitrary path to use in your Vue app
                 target: 'http://121.40.140.72:8889',
                 changeOrigin: true,
-                pathRewrite: { '^/models': '' },  // Removes '/models' from the forwarded request
+                pathRewrite: {'^/models': ''},  // Removes '/models' from the forwarded request
             }
         }
     }
+};
+
+module.exports = {
+    lintOnSave: false
 };
 
 

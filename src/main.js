@@ -3,6 +3,7 @@ import App from './App.vue'
 import router from './router'
 import AFRAME from 'aframe';
 import AFRAMEEXTRAS from 'aframe-extras';
+import anime from "animejs";
 // import THREE from 'three';
 
 // import HotArtwork from "./HotArtwork.vue";
@@ -13,6 +14,7 @@ let app = createApp(App);
 app.use(router)
 app.use(AFRAME)
 app.use(AFRAMEEXTRAS)
+app.use(anime)
 app.component('l-map', LMap);
 app.component('l-tile-layer', LTileLayer);
 app.component('l-marker', LMarker);

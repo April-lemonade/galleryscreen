@@ -1,219 +1,154 @@
 <template>
-  <div style="height: 500px; width: 1000px">
-    <l-map :zoom="0" :center="[250, 500]"
-           :options="{ crs: L.CRS.Simple, zoomControl: false, scrollWheelZoom: false, doubleClickZoom: false, touchZoom: false, dragging: false }">
-      <l-image-overlay :url="imageUrl" :bounds="imageBounds"></l-image-overlay>
-      <div v-for="(item,index) in hotArtwork1" :key="index">
-        <l-polyline style="background: transparent" :lat-lngs="pathPointsTransformed"></l-polyline>
-        <l-marker style="background: transparent" :lat-lng="[540-item.position.y, item.position.x+10]">
-          <l-icon style="background: transparent" :icon-url="item.img" :icon-size="[80, 100]" :icon-anchor="[40, 80]"
-                  :staticAnchor="[16, 37]"></l-icon>
-        </l-marker>
+  <!--  <map-test></map-test>-->
+  <div class="container">
+    <div class="left">
+      <div>
+        <div class="subtitle">
+          Path through artwork
+        </div>
+        <div class="pathInfos">
+          <div v-for="(item,key) in paths" :key="key" class="pathInfo">
+            <div class="pathColor" :style='{ background: `linear-gradient(${item.color1}, ${item.color2})` }'></div>
+            <div v-for="(i,index) in item.content" :key="index"
+                 style="word-wrap: normal;font-size: 14px;margin-bottom: 40%;font-family: 'Centaur',serif;font-style: italic">
+              {{ i }}
+            </div>
+          </div>
+        </div>
       </div>
-
-    </l-map>
+      <!--      <div class="subtitle">-->
+      <!--        Most Participated-->
+      <!--      </div>-->
+      <!--      <div style="display: flex;flex-direction: column;align-items: flex-start">-->
+      <!--        <div v-for="(item,index) in hotArtworks" :key="index">-->
+      <!--          {{ item.id }}&nbsp;&nbsp;{{ item.name }}-->
+      <!--        </div>-->
+      <!--      </div>-->
+    </div>
+    <div class="right">
+      <div style="position: relative;z-index: 2;width: 100%">
+        <!--        <map-view></map-view>-->
+        <leaf-map></leaf-map>
+      </div>
+      <div
+          style="position: absolute;z-index: 3;bottom: 9%;width: 60vw;display: flex;flex-direction: column;align-items: center;background: transparent">
+        <p style="width: 80%;text-align: center; font-size: 60px;font-weight: bold;margin-bottom: 5%;;backdrop-filter: blur(5px);border-radius: 20px;box-shadow: 0 4px 4px rgba(255,255,255,0.15);background: transparent">
+          Popular route recommendation
+        </p>
+        <div class="statistics">
+          <div class="reminder">
+            <div class="subtitle">What is the name of the route?</div>
+            <div v-for="(item,index) in paths" :key="index" class="reminder_content">
+              <div style="width: 55px;height: 15px"
+                   :style="{ background: `linear-gradient(to left,${item.color1}, ${item.color2})` }"></div>
+              <div>{{ item.name }}</div>
+            </div>
+          </div>
+          <div class="reminder">
+            <div class="subtitle">What is the proportion of visitors to popular routes?</div>
+            <div class="reminder_content">
+              <div v-for="(item,index) in paths" :key="index">
+                <div
+                    :style="{width:`${item.proportion*200}px`,height:`${item.proportion*200}px`,background: `linear-gradient(to left,${item.color1}, ${item.color2})`}"
+                    style="border: solid 1px black;border-radius: 200px;text-align: center;align-items: center;display: flex;flex-direction: row;justify-content: center">
+                  {{ item.proportion * 100 }}%
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="reminder">
+            <div class="subtitle">How long does each route take?</div>
+            <div v-for="(item,index) in paths" :key="index" class="reminder_content"
+                 style="align-items: flex-start;justify-content: flex-start">
+              <div style="height: 15px"
+                   :style="{ width:`${item.duration/30*200}px`,background: `linear-gradient(to left,${item.color1}, ${item.color2})` }"></div>
+            </div>
+          </div>
+          <div class="reminder">
+            <div class="subtitle">Where are the most popular exhibits located?
+            </div>
+            <img style="width: 30%" src="./assets/locbg.jpg" alt=""/>
+            <!--            <div v-for="(item,index) in hotArtworks" :key="index"-->
+            <!--                 style="display: flex;flex-direction: column;align-items: flex-start;width: 100%">-->
+            <!--              {{ item.id }}&nbsp;&nbsp;{{ item.name }}-->
+            <!--            </div>-->
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
+
 </template>
 <script>
+// import colorSpread from "@/components/ColorSpread.vue";
+// import anime from "animejs";
+// anime({
+//   targets: 'div',
+//   translateX: 250,
+//   rotate: '1turn',
+//   backgroundColor: '#FFF',
+//   duration: 800
+// });
+import mapTest from "@/components/MapTest.vue";
+import leafMap from "@/components/LeafMap.vue";
+
 export default {
   name: 'testView',
   data() {
     return {
-      hotArtwork1: [
-        {id: '14', position: {x: 692, y: 260}, img: require('@/assets/Group 40.png')},
-        {id: '10', position: {x: 760, y: 350}, img: require('@/assets/Group 42.png')},
-        {id: '15', position: {x: 465, y: 340}, img: require('@/assets/Group 43.png')},
-        {id: '12', position: {x: 295, y: 250}, img: require('@/assets/Group 44.png')},
-        {id: '11', position: {x: 190, y: 310}, img: require('@/assets/Group 45.png')}
-      ]
+      paths: [
+        {
+          color1: '#B98333',
+          color2: '#533B17',
+          proportion: 0.4,
+          name: 'path1',
+          duration: 10,
+          content: ['La partida de David', 'Cabeza femenina, de perfil hacia la izquierda', 'San Vicente Ferrer', 'Asta su Abuelo', 'Seis manos', 'Julia Domna', 'Figura femenina y amorcillo sobre nubes', 'Tampoco', 'Florero', 'Santa Catalina']
+        },
+        {
+          color1: '#7297AC',
+          color2: '#313D43',
+          proportion: 0.2,
+          name: 'path2',
+          duration: 30,
+          content: ['Santa Catalina', 'Los duques de Osuna y sus hijos', 'Florero', 'Tampoco', 'Isabel II, niña', 'Ignacio, hijo del artista'],
+        },
+        {
+          color1: '#4F7C48',
+          color2: '#1F301C',
+          proportion: 0.3,
+          name: 'path3',
+          duration: 20,
+          content: ['Botella del estuche de aseo de viaje de Fernando VII', 'Chasco, mala fiesta es esta', 'La Torre de las Damas en la Alhambra de Granada', 'Santa Ana, San Joaquín y la Virgen', 'Trece manos', 'Santa Catalina', 'Los duques de Osuna y sus hijos', 'Isabel II, niña', 'Figura femenina y amorcillo sobre nubes']
+        }
+      ],
+      hotArtworks: [
+        {id: '14', name: 'Santa Catalina', position: {x: 390, y: 210}, img: require('./assets/HotArtwork/test.jpg')},
+        {
+          id: '10',
+          name: 'Figura femenina y amorcillo sobre nubes',
+          position: {x: 493, y: 255},
+          img: require('./assets/HotArtwork/test.jpg')
+        },
+        {
+          id: '15',
+          name: 'Los duques de Osuna y sus hijosa',
+          position: {x: 417, y: 180},
+          img: require('./assets/HotArtwork/test.jpg')
+        },
+        {id: '12', name: 'Tampoco', position: {x: 470, y: 230}, img: require('./assets/HotArtwork/test.jpg')},
+        {id: '11', name: 'Isabel II, niña', position: {x: 480, y: 215}, img: require('./assets/HotArtwork/test.jpg')}
+      ],
     }
-  }
+  },
+  components: {
+    // colorSpread
+    mapTest,
+    leafMap
+  },
 }
 </script>
 
-<script setup>
-import {LMap, LImageOverlay, LMarker, LIcon, LPolyline} from '@vue-leaflet/vue-leaflet';
-import {computed, ref} from 'vue';
-import L from 'leaflet';
-
-// Example path points
-const pathPoints = [
-  {x: 500, y: 390},
-  {x: 510, y: 380},
-  {x: 520, y: 370},
-  {x: 515, y: 360},
-  {x: 515, y: 350},
-  {x: 522, y: 340},
-  {x: 532, y: 331},
-  {x: 542, y: 325},
-  {x: 552, y: 321},
-  {x: 562, y: 314},
-  {x: 572, y: 316},
-  {x: 582, y: 314},
-  {x: 592, y: 310},
-  {x: 602, y: 310},
-  {x: 612, y: 311},
-  {x: 622, y: 301},
-  {x: 632, y: 291},
-  {x: 642, y: 284},
-  {x: 651, y: 274},
-  {x: 661, y: 264},
-  {x: 668, y: 254},
-  {x: 674, y: 244},
-  {x: 680, y: 234},
-  {x: 690, y: 224},
-  {x: 700, y: 226},
-  {x: 699, y: 236},
-  {x: 694, y: 246},
-  {x: 684, y: 256},
-  {x: 685, y: 255},
-  {x: 695, y: 245},
-  {x: 702, y: 235},
-  {x: 703, y: 225},
-  {x: 713, y: 215},
-  {x: 723, y: 217},
-  {x: 733, y: 212},
-  {x: 743, y: 206},
-  {x: 753, y: 214},
-  {x: 763, y: 220},
-  {x: 773, y: 222},
-  {x: 781, y: 232},
-  {x: 787, y: 242},
-  {x: 793, y: 250},
-  {x: 803, y: 250},
-  {x: 798, y: 251},
-  {x: 788, y: 252},
-  {x: 778, y: 255},
-  {x: 768, y: 253},
-  {x: 758, y: 248},
-  {x: 750, y: 249},
-  {x: 750, y: 239},
-  {x: 750, y: 229},
-  {x: 750, y: 219},
-  {x: 756, y: 209},
-  {x: 761, y: 199},
-  {x: 770, y: 190},
-  {x: 780, y: 193},
-  {x: 790, y: 194},
-  {x: 800, y: 191},
-  {x: 810, y: 190},
-  {x: 809, y: 181},
-  {x: 799, y: 171},
-  {x: 792, y: 161},
-  {x: 792, y: 157},
-  {x: 782, y: 152},
-  {x: 772, y: 152},
-  {x: 762, y: 154},
-  {x: 752, y: 156},
-  {x: 742, y: 158},
-  {x: 732, y: 160},
-  {x: 722, y: 162},
-  {x: 712, y: 162},
-  {x: 702, y: 162},
-  {x: 692, y: 166},
-  {x: 682, y: 166},
-  {x: 672, y: 166},
-  {x: 662, y: 164},
-  {x: 652, y: 152},
-  {x: 642, y: 152},
-  {x: 632, y: 152},
-  {x: 624, y: 161},
-  {x: 624, y: 171},
-  {x: 624, y: 181},
-  {x: 621, y: 191},
-  {x: 618, y: 201},
-  {x: 617, y: 211},
-  {x: 617, y: 221},
-  {x: 617, y: 231},
-  {x: 620, y: 241},
-  {x: 617, y: 251},
-  {x: 617, y: 261},
-  {x: 618, y: 271},
-  {x: 617, y: 281},
-  {x: 614, y: 291},
-  {x: 604, y: 301},
-  {x: 594, y: 310},
-  {x: 584, y: 314},
-  {x: 574, y: 316},
-  {x: 564, y: 315},
-  {x: 555, y: 309},
-  {x: 545, y: 304},
-  {x: 535, y: 300},
-  {x: 525, y: 299},
-  {x: 518, y: 290},
-  {x: 513, y: 280},
-  {x: 507, y: 270},
-  {x: 502, y: 261},
-  {x: 493, y: 255},
-  {x: 498, y: 245},
-  {x: 493, y: 235},
-  {x: 483, y: 228},
-  {x: 473, y: 228},
-  {x: 468, y: 224},
-  {x: 466, y: 214},
-  {x: 465, y: 204},
-  {x: 474, y: 200},
-  {x: 477, y: 200},
-  {x: 467, y: 201},
-  {x: 457, y: 202},
-  {x: 448, y: 208},
-  {x: 446, y: 218},
-  {x: 443, y: 228},
-  {x: 440, y: 238},
-  {x: 437, y: 248},
-  {x: 428, y: 256},
-  {x: 418, y: 257},
-  {x: 408, y: 253},
-  {x: 400, y: 243},
-  {x: 395, y: 233},
-  {x: 392, y: 223},
-  {x: 391, y: 213},
-  {x: 393, y: 216},
-  {x: 395, y: 226},
-  {x: 398, y: 236},
-  {x: 403, y: 246},
-  {x: 410, y: 256},
-  {x: 417, y: 266},
-  {x: 426, y: 276},
-  {x: 434, y: 286},
-  {x: 442, y: 296},
-  {x: 452, y: 306},
-  {x: 462, y: 307},
-  {x: 472, y: 310},
-  {x: 482, y: 312},
-  {x: 492, y: 318},
-  {x: 494, y: 328},
-  {x: 490, y: 338},
-  {x: 489, y: 348},
-  {x: 489, y: 358},
-  {x: 490, y: 368},
-  {x: 490, y: 378},
-  {x: 498, y: 388}
-]
-
-
-// Transform path points to be used with Leaflet
-const pathPointsTransformed = computed(() => {
-  return pathPoints.map(point => [540 - point.y, point.x + 10]);
-});
-// const hotArtwork1 = [
-//   {id: '14', position: {x: 692, y: 260}, img: require('@/assets/Group 40.png')},
-//   {id: '10', position: {x: 760, y: 350}, img: require('@/assets/Group 42.png')},
-//   {id: '15', position: {x: 465, y: 340}, img: require('@/assets/Group 43.png')},
-//   {id: '12', position: {x: 295, y: 250}, img: require('@/assets/Group 44.png')},
-//   {id: '11', position: {x: 190, y: 310}, img: require('@/assets/Group 45.png')}
-// ]
-
-// Use Vue's asset URL handling for the map image and marker icon
-const imageUrl = new URL('@/assets/map.jpg', import.meta.url).href;
-// const markerIconUrl = new URL('@/assets/HotArtwork/test.jpg', import.meta.url).href; // Change this to your custom marker image path
-
-// Define the bounds of the image on the map
-const imageBounds = ref([
-  [0, 0],       // Coordinates for the bottom-left corner
-  [500, 1000]   // Coordinates for the top-right corner
-]);
-</script>
 
 <style>
 /* Ensure the map container has a defined height and width */
@@ -227,5 +162,93 @@ svg {
 
 .leaflet-marker-icon {
   background: transparent;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  font-family: Centaur, serif;
+}
+
+.container {
+  color: white;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+}
+
+.left {
+  width: 10vw;
+  margin-left: 5%;
+  margin-right: 3%;
+  height: 100vh;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  justify-content: center;
+}
+
+.right {
+  width: 80vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  //justify-content: center;
+}
+
+.pathInfos {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 5%;
+}
+
+.pathColor {
+  width: 20px;
+  height: 95px;
+  border-radius: 10px;
+  margin-bottom: 20%;
+  border: 1px solid black;
+}
+
+.subtitle {
+  margin-bottom: 10%;
+  font-size: 20px;
+}
+
+.pathInfo {
+  width: 20%;
+  display: flex;
+  flex-direction: column;
+  //align-items: center;
+}
+
+.statistics {
+  width: 100%;
+  justify-content: space-between;
+  display: flex;
+  flex-direction: row;
+  gap: 5%;
+}
+
+.reminder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.reminder_content {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  gap: 10%;
+  margin-bottom: 5%;
+  align-items: center;
+  justify-content: center;
 }
 </style>

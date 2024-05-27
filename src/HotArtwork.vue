@@ -1,16 +1,18 @@
 <template>
   <div class="container">
     <div class="background">
-      <img class="background-img" src="../src/assets/HotArtwork/artwork_img.png" alt=""/>
-      <artwork-color style="opacity: 0.5" class="colorBlock"></artwork-color>
+      <img class="animate__animated animate__zoomIn animate__delay-5s background-img"
+           style="--animate-duration: 5s"
+           src="../src/assets/HotArtwork/artwork_img.png" alt=""/>
+      <color-spread style="position: absolute;top: 15%;opacity: 0.6" class="colorBlock"></color-spread>
     </div>
     <div class="info">
-      <div class="info-top">
+      <div class="animate__animated animate__slideInDown info-top">
         <div class="info-top-detail">
           <div class="info-top-detail-title">
             Where is the work located?
           </div>
-          <img style="width: 60%;margin-bottom: 3%" src="./assets/HotArtwork/layout.png" alt=""/>
+          <img class="location" style="width: 60%;margin-bottom: 3%" src="./assets/HotArtwork/layout.png" alt=""/>
         </div>
         <div class="info-top-detail">
           <div class="info-top-detail-title">
@@ -22,7 +24,7 @@
           </div>
         </div>
         <div class="info-top-detail">
-          <div class="info-top-detail-title" style="text-align: left;margin-left: 55%">
+          <div class="info-top-detail-title" style="text-align: left;margin-left: 50%">
             About the work:
           </div>
           <table style="margin-bottom: 3%">
@@ -42,7 +44,7 @@
         </div>
       </div>
       <div class="info-mid">
-        <div class="info-mid-detail">
+        <div class="animate__animated animate__slideInLeft info-mid-detail">
           <div class="info-mid-detail-title">
             <p>Popularity Diary</p>
           </div>
@@ -52,7 +54,8 @@
           </div>
           <img style="bottom: 5%;width: 100%" src="./assets/HotArtwork/TopicColors.jpg" alt=""/>
         </div>
-        <div class="info-mid-detail" style="width: 70%;margin-left: 5%;margin-right: 5%">
+        <div class="animate__animated animate__slideInUp info-mid-detail"
+             style="width: 70%;margin-left: 5%;margin-right: 5%">
           <div style="height: 70%;display: flex;flex-direction: column;justify-content: flex-end;margin-bottom: 5%">
             <div style="font-size: 60px">Susana y los viejos</div>
             <div style="font-size: 40px;font-weight: bold">Crespi, Giuseppe Maria</div>
@@ -70,7 +73,8 @@
             </div>
           </div>
         </div>
-        <div class="info-mid-detail" style="display: flex;flex-direction: column;align-items: center;">
+        <div class="animate__animated animate__slideInRight info-mid-detail"
+             style="display: flex;flex-direction: column;align-items: center;">
           <div class="info-mid-detail-title">
             <p>Among All Exhibits</p>
           </div>
@@ -95,12 +99,22 @@
 </template>
 
 <script>
-import artworkColor from "@/components/ArtworkColor.vue";
+// import artworkColor from "@/components/ArtworkColor.vue";
+import colorSpread from "@/components/ColorSpread.vue";
+import anime from "animejs";
+import 'animate.css';
 
+
+anime({
+  targets: 'img',
+  translateX: 270,
+  delay: 3000
+})
 export default {
   name: 'HotArtwork',
   components: {
-    artworkColor
+    // artworkColor
+    colorSpread
   },
   data() {
     return {
@@ -159,6 +173,7 @@ body {
   position: absolute;
   z-index: 2;
   top: 15%;
+  opacity: 0.8;
 }
 
 
@@ -174,7 +189,7 @@ body {
   display: flex;
   flex-direction: row;
   height: 18vh;
-  width: 100%;
+  //width: 100%;
   margin-left: 5%;
   align-items: center;
 }
@@ -185,7 +200,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
+  //justify-content: space-between;
   align-content: center;
 }
 
@@ -195,7 +210,7 @@ body {
   text-align: center;
   font-weight: 500;
   margin-top: 5%;
-  margin-bottom: 1%;
+  margin-bottom: 2%;
 }
 
 td {
@@ -228,4 +243,21 @@ td {
   font-weight: var(--lightFontWeight);
   margin-bottom: 3%;
 }
+
+.location {
+  animation: blink 2s 6;
+  animation-delay: 1s;
+}
+
+@keyframes blink {
+  to {
+    color: transparent;
+    filter: grayscale(100);
+  }
+}
+:root {
+  --animate-duration: 1s;
+  //--animate-delay: 0.9s;
+}
+
 </style>
